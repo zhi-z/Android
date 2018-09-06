@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray"
+    tools:context="com.raindi.pumpinfo.activity.PumpActivity">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@id/logo"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            >
+
+            <RelativeLayout
+                android:id="@+id/ll0"
+                android:layout_width="match_parent"
+                android:layout_height="218dp"
+                android:background="@drawable/banner"
+                >
+
+                <RelativeLayout
+                    android:layout_width="186dp"
+                    android:layout_height="186dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/round"
+                    >
+
+                    <TextView
+                        android:id="@+id/tv_device_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_above="@id/view"
+                        android:layout_marginBottom="16dp"
+                        android:text="@string/app_name"
+                        android:textColor="@color/white"
+                        android:visibility="visible"
+                        />
+
+                    <View
+                        android:id="@+id/view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0.5dp"
+                        android:layout_centerInParent="true"
+                        />
+
+                    <ImageView
+                        android:id="@+id/iv_switch"
+                        android:layout_width="113dp"
+                        android:layout_height="36dp"
+                        android:background="@drawable/switch_selector"
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@id/view"
+                        tools:ignore="contentDescription"
+                        />
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_deviceId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal"
+                android:visibility="visible"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/device_id"
+                    android:textSize="12sp" />
+
+                <Spinner
+                    android:id="@+id/sp_select"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="16dp"
+                    android:background="@mipmap/spinner_bg"
+                    />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="@color/gray" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                >
+
+                <TextView
+                    android:id="@+id/tv_water_pressure"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/water_pressure_selector"
+                    android:textAlignment="center"
+                    android:drawablePadding="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/water_pressure_mode"
+                    />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="#ccc" />
+
+                <TextView
+                    android:id="@+id/tv_water_flow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/water_flow_selector"
+                    android:textAlignment="center"
+                    android:drawablePadding="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/water_stream_mode"
+                    />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="#ccc" />
+
+                <TextView
+                    android:id="@+id/tv_timer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/timer_selector"
+                    android:textAlignment="center"
+                    android:drawablePadding="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:enabled="false"
+                    android:text="@string/timer_mode"
+                    />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="@color/gray" />
+
+            <TextView
+                android:id="@+id/tv_current_water_pressure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:labelFor="@id/et_water_pressure_set"
+                android:text="@string/set_water_pressure"
+                />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                >
+
+                <TextView
+                    android:id="@+id/tv_water_pressure_set"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableTop="@drawable/ic_water_pressure_selected"
+                    android:textAlignment="center"
+                    android:labelFor="@id/et_water_pressure_set"
+                    android:drawablePadding="3dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/pressure"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_reduce_water_pressure"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/app_name"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_toEndOf="@id/tv_water_pressure_set"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/reduce_selector"
+                    />
+
+                <EditText
+                    android:id="@+id/et_water_pressure_set"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/iv_reduce_water_pressure"
+                    android:layout_toStartOf="@id/iv_add_water_pressure"
+                    android:layout_centerVertical="true"
+                    android:inputType="numberDecimal"
+                    android:textAlignment="center"
+                    android:maxLength="4"
+                    android:textColor="@color/colorAccent" />
+
+                <ImageView
+                    android:id="@+id/iv_add_water_pressure"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@id/btn_send"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:contentDescription="@string/app_name"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/add_selector"
+                    />
+
+                <Button
+                    android:id="@+id/btn_send"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/tv_water_pressure_set"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/btn_selector"
+                    android:text="@string/ok"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="@color/gray" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                >
+
+                <Button
+                    android:id="@+id/btn_water_less"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:background="@drawable/btn_selector"
+                    android:text="@string/water_less"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="#ccc" />
+
+                <Button
+                    android:id="@+id/btn_water_pressure_less"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/btn_selector"
+                    android:text="@string/water_pressure_less"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="#ccc" />
+
+                <Button
+                    android:id="@+id/btn_water_pressure_more"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_selector"
+                    android:text="@string/water_pressure_more"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp">
+
+                <Button
+                    android:id="@+id/btn_overload"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_selector"
+                    android:text="@string/overload"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="#ccc" />
+
+                <Button
+                    android:id="@+id/btn_excessive_current"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/btn_selector"
+                    android:text="@string/excessive_current"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="#ccc" />
+
+                <Button
+                    android:id="@+id/btn_water_pressure_sensor_exception"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/btn_selector"
+                    android:text="@string/water_pressure_sensor_exception"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        android:src="@drawable/logo"
+        tools:ignore="contentDescription"
+        />
+
+</RelativeLayout>
