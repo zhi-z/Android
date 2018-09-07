@@ -32,6 +32,19 @@ public class LoadingActivity extends Activity{
         startService(new Intent(LoadingActivity.this,LoadingService.class));
         queryProtocol = new QueryProtocol(getApplicationContext());
 
+        InfoEntityData.setSendUrl("https://eiiman.raindi.net/api/pumperctl");
+        InfoEntityData.setUrl("https://eiiman.raindi.net/api/pumper.json");
+
+        runnabl = new Runnable() {  //使用handler的postDelayed实现延时跳转
+            public void run() {
+                runing = false;
+                Intent intent = new Intent(LoadingActivity.this,MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        };
+        handler.postDelayed(runnabl,5000);//5秒后跳转至应用主界面MainActivity
+
         getInfoEntityData().setInfoEntity(queryProtocol.query());
         new Thread(){
             @Override
@@ -43,6 +56,7 @@ public class LoadingActivity extends Activity{
                         System.out.println("-----------------------加载数据，加载数据。。。。");
                     }else {
                         runing = false;
+                        handler.removeCallbacks(runnabl);
                         Intent intent = new Intent(LoadingActivity.this,MainActivity.class);
                         startActivity(intent);
                         finish();
@@ -50,13 +64,7 @@ public class LoadingActivity extends Activity{
                 }
             }
         }.start();
-//        handler.postDelayed(new Runnable() {  //使用handler的postDelayed实现延时跳转
-//            public void run() {
-//                Intent intent = new Intent(LoadingActivity.this, MainActivity.class);
-//                startActivity(intent);
-//                finish();
-//            }
-//        }, 5000);//5秒后跳转至应用主界面MainActivity
+
     }
 
     public InfoEntityData getInfoEntityData(){

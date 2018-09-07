@@ -3,6 +3,7 @@ package com.example.raindi.pumpercontrol.http;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.raindi.pumpercontrol.data.InfoEntityData;
 import com.example.raindi.pumpercontrol.entities.JsonType;
 import com.example.raindi.pumpercontrol.entities.PumperControlEntity;
 import com.example.raindi.pumpercontrol.entities.PumperDisplayEntity;
@@ -18,9 +19,13 @@ import org.json.JSONObject;
  */
 
 public class QueryProtocol {
-    public static String URL = "https://eiiman.raindi.net/api/pumper.json";
-    public static String SEND_URL = "https://eiiman.raindi.net/api/pumperctl";
-    public static String mUrl;
+    //public  String URL = "https://eiiman.raindi.net/api/pumper.json";
+    //public  String SEND_URL = "https://eiiman.raindi.net/api/pumperctl";
+
+    public  String URL = InfoEntityData.getUrl();
+    public  String  SEND_URL = InfoEntityData.getSendUrl();
+
+    public  String mUrl;
     private Gson gson;
     Context mContext;
     public QueryProtocol(Context context){
@@ -71,7 +76,7 @@ public class QueryProtocol {
         return null;
     }
 
-    public static void setUrl(int suffix) {
+    public  void setUrl(int suffix) {
         if (suffix == 0){
             mUrl = URL;
         }else {
@@ -79,7 +84,7 @@ public class QueryProtocol {
         }
     }
 
-    public static String getUrl() {
+    public  String getUrl() {
         return mUrl;
     }
 
@@ -119,4 +124,7 @@ public class QueryProtocol {
         return null;
     }
 
+    /*public InfoEntityData getInfoEntityData(){
+        return (InfoEntityData)getApplicationContext();
+    }*/
 }
