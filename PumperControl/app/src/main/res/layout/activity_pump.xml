@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray"
-    tools:context="com.raindi.pumpinfo.activity.PumpActivity">
+    tools:context="com.example.raindi.pumpercontrol.activity.MainActivity">
 
     <ScrollView
         android:layout_width="fill_parent"
@@ -387,9 +387,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="16dp"
+        android:layout_alignParentStart="true"
         android:src="@drawable/logo"
-        tools:ignore="contentDescription"
-        />
+        tools:ignore="contentDescription" />
 
 </RelativeLayout>
