@@ -10,8 +10,8 @@ import com.example.raindi.pumpercontrol.entities.PumperDisplayEntity;
 
 public class InfoEntityData extends Application{
     private PumperDisplayEntity infoEntity;
-    private static String Url = "";
-    private static String sendUrl = "";
+    private static String Url = "https://eiiman.raindi.net/api/pumper.json";
+    private static String sendUrl = "https://eiiman.raindi.net/api/pumperctl";
 
     public static String getUrl() {
         return Url;

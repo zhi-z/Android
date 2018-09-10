@@ -3,6 +3,8 @@ package com.example.raindi.pumpercontrol.activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -41,6 +43,12 @@ import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
+
+    final String URL = "url";
+    final String SENDURL = "sendUrl";
+
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
 
     private String TAG = "yjx";
     private Button mFailLess, mFailMore,mFailOver,mFailSensor,mFailCurrent,mFailWaterLess,mSend;
@@ -544,8 +552,14 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.nav_question) {
+            Uri uri = Uri.parse("http://bbs.raindi.net/forum.php");
+            Intent intent = new Intent();
+            intent.setAction("android.intent.action.VIEW");
+            intent.setData(uri);
+            startActivity(intent);
 
         } else if (id == R.id.nav_refresh) {
+            Toast.makeText(getApplicationContext(), "重置成功", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_copyright) {
             Intent intent = new Intent(MainActivity.this,CopyrightActivity.class);

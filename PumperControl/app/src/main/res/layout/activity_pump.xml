@@ -96,7 +96,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
-                android:background="@color/gray" />
+                android:background="@color/gray"
+                android:layout_marginBottom="8dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -111,9 +112,6 @@
                     android:layout_weight="1"
                     android:drawableTop="@drawable/water_pressure_selector"
                     android:textAlignment="center"
-                    android:drawablePadding="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
                     android:text="@string/water_pressure_mode"
                     />
 
@@ -129,9 +127,6 @@
                     android:layout_weight="1"
                     android:drawableTop="@drawable/water_flow_selector"
                     android:textAlignment="center"
-                    android:drawablePadding="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
                     android:text="@string/water_stream_mode"
                     />
 
@@ -147,9 +142,7 @@
                     android:layout_weight="1"
                     android:drawableTop="@drawable/timer_selector"
                     android:textAlignment="center"
-                    android:drawablePadding="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
+
                     android:enabled="false"
                     android:text="@string/timer_mode"
                     />
@@ -239,7 +232,8 @@
                     android:background="@drawable/btn_selector"
                     android:text="@string/ok"
                     android:textColor="@color/white"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:layout_marginBottom="16dp"/>
 
             </RelativeLayout>
 

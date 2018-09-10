@@ -32,8 +32,8 @@ public class LoadingActivity extends Activity{
         startService(new Intent(LoadingActivity.this,LoadingService.class));
         queryProtocol = new QueryProtocol(getApplicationContext());
 
-        InfoEntityData.setSendUrl("https://eiiman.raindi.net/api/pumperctl");
-        InfoEntityData.setUrl("https://eiiman.raindi.net/api/pumper.json");
+//        InfoEntityData.setSendUrl("https://eiiman.raindi.net/api/pumperctl");
+//        InfoEntityData.setUrl("https://eiiman.raindi.net/api/pumper.json");
 
         runnabl = new Runnable() {  //使用handler的postDelayed实现延时跳转
             public void run() {
