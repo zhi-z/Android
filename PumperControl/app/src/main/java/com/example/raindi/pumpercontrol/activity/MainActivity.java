@@ -2,6 +2,7 @@ package com.example.raindi.pumpercontrol.activity;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -539,13 +540,16 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_network_settings) {
-            // Handle the camera action
+            Intent intent = new Intent(MainActivity.this,NetworkSettingsActivity.class);
+            startActivity(intent);
+
         } else if (id == R.id.nav_question) {
 
         } else if (id == R.id.nav_refresh) {
 
         } else if (id == R.id.nav_copyright) {
-
+            Intent intent = new Intent(MainActivity.this,CopyrightActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -18,10 +18,11 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity.MainActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:configChanges="orientation|keyboardHidden">
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">
+
         </activity>
         <activity android:name=".activity.LoadingActivity">
             <intent-filter>
@@ -34,7 +35,17 @@
         <service
             android:name=".activity.LoadingService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <activity
+            android:name=".activity.CopyrightActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+        <activity android:name=".activity.NetworkSettingsActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
     </application>
 
 </manifest>
