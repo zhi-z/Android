@@ -1,5 +1,6 @@
 package com.example.raindi.pumpercontrol.activity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -76,6 +77,24 @@ public class MainActivity extends AppCompatActivity
     private int selectId =0,etWater = 0;
     private ImageView mAddWP,mReduceWP,mSwitch;
     private AlertDialog stateDialog;
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        preferences = getSharedPreferences("NETWORK_SETTING", Activity.MODE_PRIVATE);
+        editor = preferences.edit();
+        String beforeUrl = preferences.getString(URL,"https://eiiman.raindi.net/api/pumper.json");
+        String beforeSnedUrl = preferences.getString(SENDURL,"https://eiiman.raindi.net/api/pumperctl");
+
+        System.out.println(beforeUrl);
+        System.out.println(beforeSnedUrl);
+
+        InfoEntityData.setUrl(beforeUrl);
+        InfoEntityData.setSendUrl(beforeSnedUrl);
+
+        System.out.println("-----------------------------------我回来了");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -224,7 +243,8 @@ public class MainActivity extends AppCompatActivity
         singleThreadExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                String result = queryProtocol.sendControl(controlEntity);
+//                String result = queryProtocol.sendControl(controlEntity);
+                String result = (new QueryProtocol(getApplicationContext())).sendControl(controlEntity);
                 Logger.D("control result:"+result);
                 if (result != null && result.equals("\"ok\"")){
                     hasSendCMD();
@@ -362,7 +382,8 @@ public class MainActivity extends AppCompatActivity
             public void run() {
                 //get info
 //                PumperDisplayEntity infoEntity = queryProtocol.query();
-                getInfoEntityData().setInfoEntity(queryProtocol.query());
+//                getInfoEntityData().setInfoEntity(queryProtocol.query());
+                getInfoEntityData().setInfoEntity((new QueryProtocol(getApplicationContext())).query());
                 PumperDisplayEntity infoEntity = getInfoEntityData().getInfoEntity();
 
                 if (infoEntity != null){
@@ -559,7 +580,19 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.nav_refresh) {
-            Toast.makeText(getApplicationContext(), "重置成功", Toast.LENGTH_SHORT).show();
+            InfoEntityData.setUrl("https://eiiman.raindi.net/api/pumper.json");
+            InfoEntityData.setSendUrl("https://eiiman.raindi.net/api/pumperctl");
+
+            preferences = getSharedPreferences("NETWORK_SETTING", Activity.MODE_PRIVATE);
+            editor = preferences.edit();
+
+            editor.putString(URL,"https://eiiman.raindi.net/api/pumper.json");
+            editor.putString(SENDURL,"https://eiiman.raindi.net/api/pumperctl");
+
+            if(editor.commit()){
+                Toast.makeText(getApplicationContext(), "重置成功", Toast.LENGTH_SHORT).show();
+            }
+
 
         } else if (id == R.id.nav_copyright) {
             Intent intent = new Intent(MainActivity.this,CopyrightActivity.class);
