@@ -34,6 +34,7 @@ public class LoadingActivity extends Activity{
 
         InfoEntityData.setSendUrl("https://eiiman.raindi.net/api/pumperctl");
         InfoEntityData.setUrl("https://eiiman.raindi.net/api/pumper.json");
+        getSharedPreferences("UNIT_SWITCH", Activity.MODE_PRIVATE).getBoolean("unitSwitchFlag",true);
 
         runnabl = new Runnable() {  //使用handler的postDelayed实现延时跳转
             public void run() {

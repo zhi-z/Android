@@ -264,6 +264,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setPumpDisplay(int position) {
+
+        preferences = getSharedPreferences("UNIT_SWITCH", Activity.MODE_PRIVATE);
+
+        editor.putString(URL,"https://eiiman.raindi.net/api/pumper.json");
+        editor.putString(SENDURL,"https://eiiman.raindi.net/api/pumperctl");
+
         if (resultsBeans.size()==0){
             return;
         }
@@ -295,6 +301,11 @@ public class MainActivity extends AppCompatActivity
             etWater = target;
             // 对数据进行转换
             targetShow = target*0.001;
+            if(preferences.getBoolean("unitSwitchFlag",true)){
+
+            }else {
+                targetShow = targetShow*1.02;
+            }
             mTarget.setText(targetShow+"");
             mTarget.setSelection(mTarget.getText().toString().length());
         }
@@ -313,10 +324,20 @@ public class MainActivity extends AppCompatActivity
             mDeviceStatus.setVisibility(View.GONE);
         }
 
-        float num= (float)currentWaterPressure/100;
+        double num= (double) currentWaterPressure/100;
         DecimalFormat df = new DecimalFormat("0.00");//格式化小数，.后跟几个零代表几位小数
-        String waterPressure = df.format(num);
-        mCurrentWaterPressure.setText(getString(R.string.set_water_pressure,waterPressure));
+
+        if(preferences.getBoolean("unitSwitchFlag",true)){
+            String waterPressure = df.format(num);
+            mCurrentWaterPressure.setText(getString(R.string.set_water_pressure,waterPressure));
+        }else {
+            num = num * 1.02;
+            String waterPressure = df.format(num);
+            mCurrentWaterPressure.setText(getString(R.string.set_water_pressure_kg,waterPressure));
+        }
+
+
+
 
         switch (key){
             case OPEN:
@@ -591,10 +612,25 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(getApplicationContext(), "重置成功", Toast.LENGTH_SHORT).show();
             }
 
-
         } else if (id == R.id.nav_copyright) {
             Intent intent = new Intent(MainActivity.this,CopyrightActivity.class);
             startActivity(intent);
+        }else if(id == R.id.nav_unit_switch){
+            preferences = getSharedPreferences("UNIT_SWITCH", Activity.MODE_PRIVATE);
+            editor = preferences.edit();
+            if(preferences.getBoolean("unitSwitchFlag",true)){
+                editor.putBoolean("unitSwitchFlag",false);
+                if(editor.commit()){
+                    Toast.makeText(getApplicationContext(), "切换成功", Toast.LENGTH_SHORT).show();
+                }
+            }else {
+                editor.putBoolean("unitSwitchFlag",true);
+                if(editor.commit()){
+                    Toast.makeText(getApplicationContext(), "切换成功", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
