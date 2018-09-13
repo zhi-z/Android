@@ -45,8 +45,7 @@ public class NetworkSettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if((uriEditText.getText().toString().equals(beforeUrl))&(sendUrlEditText.getText().toString().equals(beforeSnedUrl))){
-                    System.out.println("------------------------------我们都一样，不需要修改");
-
+                    System.out.println("------------------------------不需要修改");
                 }
                 else {
                     editor.putString(URL,uriEditText.getText().toString());
@@ -54,9 +53,8 @@ public class NetworkSettingsActivity extends AppCompatActivity {
 
                     if(editor.commit()){
                         Toast.makeText(getApplicationContext(),"保存成功",Toast.LENGTH_SHORT).show();
+                        uriEditText.
                     }
-                    System.out.println("------------------------------我们不一样");
-
                 }
 
             }

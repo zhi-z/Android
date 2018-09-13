@@ -300,7 +300,7 @@ public class MainActivity extends AppCompatActivity
         if (etWater != target){
             etWater = target;
             // 对数据进行转换
-            targetShow = target*0.001;
+            targetShow = target*0.01;
             if(preferences.getBoolean("unitSwitchFlag",true)){
 
             }else {
