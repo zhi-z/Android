@@ -177,47 +177,54 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_height="89dp"
                 android:layout_marginEnd="16dp"
-                >
+                android:layout_marginStart="16dp">
 
+                <com.example.raindi.pumpercontrol.widget.DashboardView
+                    android:id="@+id/tv_water_pressure_set_dashboard"
+                    android:layout_width="110dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="10dp"
+                    android:labelFor="@id/et_water_pressure_set" />
+
+                <!-- android:id="@+id/dashboard_view" -->
+                <!--
                 <TextView
                     android:id="@+id/tv_water_pressure_set"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableTop="@drawable/ic_water_pressure_selected"
-                    android:textAlignment="center"
-                    android:labelFor="@id/et_water_pressure_set"
-                    android:drawablePadding="3dp"
-                    android:layout_marginTop="6dp"
                     android:layout_marginBottom="6dp"
+                    android:layout_marginTop="6dp"
+                    android:drawablePadding="3dp"
+                    android:drawableTop="@drawable/ic_water_pressure_selected"
+                    android:labelFor="@id/et_water_pressure_set"
                     android:text="@string/pressure"
-                    />
-
+                    android:textAlignment="center" />
+-->
                 <ImageView
                     android:id="@+id/iv_reduce_water_pressure"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:contentDescription="@string/app_name"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="16dp"
-                    android:layout_toEndOf="@id/tv_water_pressure_set"
+                    android:layout_marginStart="6dp"
+                    android:layout_toEndOf="@id/tv_water_pressure_set_dashboard"
                     android:clickable="true"
+                    android:contentDescription="@string/app_name"
                     android:focusable="true"
-                    android:src="@drawable/reduce_selector"
-                    />
+                    android:src="@drawable/reduce_selector" />
 
                 <EditText
                     android:id="@+id/et_water_pressure_set"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_toEndOf="@id/iv_reduce_water_pressure"
                     android:layout_toStartOf="@id/iv_add_water_pressure"
-                    android:layout_centerVertical="true"
                     android:inputType="numberDecimal"
+                    android:maxLength="5"
+                    android:ems="5"
                     android:textAlignment="center"
-                    android:maxLength="4"
                     android:textColor="@color/colorAccent" />
 
                 <ImageView
@@ -225,8 +232,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="16dp"
-                    android:layout_toStartOf="@id/btn_send"
+                    android:layout_toStartOf="@+id/btn_send"
                     android:clickable="true"
                     android:contentDescription="@string/app_name"
                     android:focusable="true"
@@ -237,13 +243,12 @@
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/tv_water_pressure_set"
                     android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
                     android:background="@drawable/btn_selector"
                     android:text="@string/ok"
                     android:textColor="@color/white"
-                    android:textSize="20sp"
-                    android:layout_marginBottom="16dp"/>
+                    android:textSize="20sp" />
 
             </RelativeLayout>
 

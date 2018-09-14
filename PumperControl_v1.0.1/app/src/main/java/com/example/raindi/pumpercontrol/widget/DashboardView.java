@@ -23,10 +23,10 @@ public class DashboardView extends View {
     private int mSweepAngle = 180; // 绘制角度
     private int mMin = 0; // 最小值
     private int mMax = 800; // 最大值
-    private int mSection = 10; // 值域（mMax-mMin）等分份数
+    private int mSection = 5; // 值域（mMax-mMin）等分份数
     private int mPortion = 10; // 一个mSection等分份数
     private String mHeaderText = "kPa"; // 表头
-    private int mRealTimeValue = mMin; // 实时读数
+    private static int mRealTimeValue = 0; // 实时读数
     private boolean isShowValue = true; // 是否显示实时读数
     private int mStrokeWidth; // 画笔宽度
     private int mLength1; // 长刻度的相对圆弧的长度
@@ -188,7 +188,7 @@ public class DashboardView extends View {
          * 画长刻度读数
          * 添加一个圆弧path，文字沿着path绘制
          */
-        mPaint.setTextSize(sp2px(10));
+        mPaint.setTextSize(sp2px(8));
         mPaint.setTextAlign(Paint.Align.LEFT);
         mPaint.setStyle(Paint.Style.FILL);
         for (int i = 0; i < mTexts.length; i++) {
@@ -244,7 +244,7 @@ public class DashboardView extends View {
          * 画实时度数值,（修改指针指向数值的显示）
          */
         if (isShowValue) {
-            mPaint.setTextSize(sp2px(16));
+            mPaint.setTextSize(sp2px(14));
 //            mPaint.setTextAlign(Paint.Align.CENTER);
             mPaint.setColor(ContextCompat.getColor(getContext(), R.color.colorDashborad));
             String value = String.valueOf(mRealTimeValue);
@@ -296,8 +296,12 @@ public class DashboardView extends View {
         return point;
     }
 
-    public int getRealTimeValue() {
+    public static int getmRealTimeValue() {
         return mRealTimeValue;
+    }
+
+    public static void setmRealTimeValue(int mRealTimeValue) {
+        DashboardView.mRealTimeValue = mRealTimeValue;
     }
 
     public void setRealTimeValue(int realTimeValue) {

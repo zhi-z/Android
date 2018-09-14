@@ -21,6 +21,7 @@
     <string name="water_stream_mode">水流</string>
     <string name="timer_mode">定时</string>
     <string name="set_water_pressure">当前水压:%1$sBar</string>
+    <string name="set_water_pressure_kpa">当前水压:%1$skPa</string>
     <string name="set_water_pressure_kg">当前水压:%1$skg/cm2</string>
     <string name="no_warn">无故障</string>
     <string name="water_less">缺水</string>

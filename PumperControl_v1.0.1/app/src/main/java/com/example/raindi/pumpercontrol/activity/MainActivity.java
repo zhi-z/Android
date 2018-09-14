@@ -35,6 +35,7 @@ import com.example.raindi.pumpercontrol.entities.PumperControlEntity;
 import com.example.raindi.pumpercontrol.entities.PumperDisplayEntity;
 import com.example.raindi.pumpercontrol.http.QueryProtocol;
 import com.example.raindi.pumpercontrol.utils.Logger;
+import com.example.raindi.pumpercontrol.widget.DashboardView;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity
 
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
+    private DashboardView mDashboardView;
 
     private String TAG = "yjx";
     private Button mFailLess, mFailMore,mFailOver,mFailSensor,mFailCurrent,mFailWaterLess,mSend;
@@ -77,6 +79,7 @@ public class MainActivity extends AppCompatActivity
     private int selectId =0,etWater = 0;
     private ImageView mAddWP,mReduceWP,mSwitch;
     private AlertDialog stateDialog;
+    private PumperDisplayEntity.ResultsBean resultsBean;
 
 
     @Override
@@ -103,14 +106,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -120,6 +115,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        mDashboardView = (DashboardView) findViewById(R.id.tv_water_pressure_set_dashboard);
 
         initView();
 
@@ -217,18 +213,32 @@ public class MainActivity extends AppCompatActivity
 
                 break;
             case R.id.iv_add_water_pressure:
-                //int waterPrsAdd = Integer.parseInt(mTarget.getText().toString())+5;
-                double waterPrsAdd = Double.valueOf(mTarget.getText().toString()) + 0.01;
-                DecimalFormat df = new DecimalFormat("0.00");
-                //String waterPressure = waterPrsAdd+"";
-                String waterPressure = df.format(waterPrsAdd);
+                int waterPrsAdd = Integer.parseInt(mTarget.getText().toString())+5;
+//                double waterPrsAdd = Double.valueOf(mTarget.getText().toString()) + 0.01;
+//                DecimalFormat df = new DecimalFormat("0.00");
+                if (waterPrsAdd < 0){
+                    waterPrsAdd = 0;
+                }else if (waterPrsAdd > 800){
+                    waterPrsAdd = 800;
+                }
+                String waterPressure = waterPrsAdd+"";
+//                String waterPressure = df.format(waterPrsAdd);
                 mTarget.setText(waterPressure);
                 mTarget.setSelection(mTarget.getText().toString().length());
                 break;
             case R.id.iv_reduce_water_pressure:
-                double waterPrsReduce = Double.valueOf(mTarget.getText().toString()) - 0.01;
-                DecimalFormat rd = new DecimalFormat("0.00");
-                String waterPressure1 = rd.format(waterPrsReduce);
+                // Bar单位显示
+//                double waterPrsReduce = Double.valueOf(mTarget.getText().toString()) - 0.01;
+//                DecimalFormat rd = new DecimalFormat("0.00");
+//                String waterPressure1 = rd.format(waterPrsReduce);
+//                mTarget.setText(waterPressure1);
+                int waterPrsReduce = Integer.parseInt(mTarget.getText().toString())-5;
+                if (waterPrsReduce < 0){
+                    waterPrsReduce = 0;
+                }else if (waterPrsReduce > 800){
+                    waterPrsReduce = 800;
+                }
+                String waterPressure1 = waterPrsReduce+"";
                 mTarget.setText(waterPressure1);
                 mTarget.setSelection(mTarget.getText().toString().length());
                 break;
@@ -274,7 +284,12 @@ public class MainActivity extends AppCompatActivity
             return;
         }
         resetButton();
-        PumperDisplayEntity.ResultsBean resultsBean= resultsBeans.get(position);
+        try {
+            resultsBean = resultsBeans.get(position);
+        }catch (Exception e){
+            System.out.println("不知道的崩溃...");
+        }
+
         int key = resultsBean.getKey();
         int mode = resultsBean.getMode();
         int target = resultsBean.getTarget(); //从数据库获取的数据，获取到的数据例如：240
@@ -295,20 +310,27 @@ public class MainActivity extends AppCompatActivity
             target = 800;
         }
         //Logger.D("target:"+target+",et:"+etWater);
-
-        double targetShow;
+        // 直接以kPa单位显示
         if (etWater != target){
             etWater = target;
-            // 对数据进行转换
-            targetShow = target*0.01;
-            if(preferences.getBoolean("unitSwitchFlag",true)){
-
-            }else {
-                targetShow = targetShow*1.02;
-            }
-            mTarget.setText(targetShow+"");
+            mTarget.setText(target+"");
             mTarget.setSelection(mTarget.getText().toString().length());
         }
+
+        // Bar与kg/cm2单位显示
+//        double targetShow;
+//        if (etWater != target){
+//            etWater = target;
+//            // 对数据进行转换
+//            targetShow = target*0.01;
+//            if(preferences.getBoolean("unitSwitchFlag",true)){
+//
+//            }else {
+//                targetShow = targetShow*1.02;
+//            }
+//            mTarget.setText(targetShow+"");
+//            mTarget.setSelection(mTarget.getText().toString().length());
+//        }
 
         int lackWater = 0;
         String errorStr = error+"";
@@ -324,17 +346,59 @@ public class MainActivity extends AppCompatActivity
             mDeviceStatus.setVisibility(View.GONE);
         }
 
-        double num= (double) currentWaterPressure/100;
-        DecimalFormat df = new DecimalFormat("0.00");//格式化小数，.后跟几个零代表几位小数
-
-        if(preferences.getBoolean("unitSwitchFlag",true)){
-            String waterPressure = df.format(num);
-            mCurrentWaterPressure.setText(getString(R.string.set_water_pressure,waterPressure));
-        }else {
-            num = num * 1.02;
-            String waterPressure = df.format(num);
-            mCurrentWaterPressure.setText(getString(R.string.set_water_pressure_kg,waterPressure));
+        if (currentWaterPressure < 0){
+            currentWaterPressure = 0;
+        }else if (currentWaterPressure > 800){
+            currentWaterPressure = 800;
         }
+
+        // 以kPa显示方式
+        final int currentNum=  currentWaterPressure;
+        String waterPressure = currentNum + "";
+
+        // 动态仪表
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                if( DashboardView.getmRealTimeValue() <= currentNum){
+                    for(int i = DashboardView.getmRealTimeValue();i<=currentNum;i++){
+                        try {
+                            sleep(3);
+                            mDashboardView.setRealTimeValue(i);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }else if(DashboardView.getmRealTimeValue() >= currentNum){
+                    for(int i = DashboardView.getmRealTimeValue();i >= currentNum;i--){
+                        try {
+                            sleep(3);
+                            mDashboardView.setRealTimeValue(i);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }
+            }
+        }.start();
+
+        mCurrentWaterPressure.setText(getString(R.string.set_water_pressure_kpa,waterPressure));
+
+        // 已Bar显示的方式
+//        double num= (double) currentWaterPressure/100;
+//        DecimalFormat df = new DecimalFormat("0.00");//格式化小数，.后跟几个零代表几位小数
+//
+//        if(preferences.getBoolean("unitSwitchFlag",true)){
+//            String waterPressure = df.format(num);
+//            mCurrentWaterPressure.setText(getString(R.string.set_water_pressure,waterPressure));
+//        }else {
+//            num = num * 1.02;
+//            String waterPressure = df.format(num);
+//            mCurrentWaterPressure.setText(getString(R.string.set_water_pressure_kg,waterPressure));
+//        }
 
 
 
