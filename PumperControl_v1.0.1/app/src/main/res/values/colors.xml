@@ -8,4 +8,5 @@
     <color name="gray">#DCDCDC</color>
     <color name="dark_gray">#898989</color>
     <color name="list_item_font_normal">#474747</color>
+    <color name="colorDashborad">#86dfa2</color>
 </resources>

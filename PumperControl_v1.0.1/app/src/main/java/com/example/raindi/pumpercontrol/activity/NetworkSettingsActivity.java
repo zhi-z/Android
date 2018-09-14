@@ -53,7 +53,6 @@ public class NetworkSettingsActivity extends AppCompatActivity {
 
                     if(editor.commit()){
                         Toast.makeText(getApplicationContext(),"保存成功",Toast.LENGTH_SHORT).show();
-                        uriEditText.
                     }
                 }
 

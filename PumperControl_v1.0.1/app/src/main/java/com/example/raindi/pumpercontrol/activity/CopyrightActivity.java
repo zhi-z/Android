@@ -11,7 +11,6 @@ public class CopyrightActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-
     }
 
     @Override
@@ -19,7 +18,6 @@ public class CopyrightActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_copyright);
-
 
     }
 }
