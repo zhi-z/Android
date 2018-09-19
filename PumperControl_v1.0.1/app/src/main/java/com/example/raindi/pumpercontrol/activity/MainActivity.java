@@ -22,10 +22,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,7 +46,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener,CompoundButton.OnCheckedChangeListener {
 
     final String URL = "url";
     final String SENDURL = "sendUrl";
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity
 
     private String TAG = "yjx";
     private Button mFailLess, mFailMore,mFailOver,mFailSensor,mFailCurrent,mFailWaterLess,mSend;
+    private Switch mSwitchTiming;
     public static boolean mChecked = true;
     ExecutorService singleThreadExecutor;
     private Spinner spinner;
@@ -119,6 +122,17 @@ public class MainActivity extends AppCompatActivity
 
         initView();
 
+//        mSwitchTiming.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if(isChecked){
+//                    System.out.println("------------------开");
+//                }else {
+//                    System.out.println("----------------------关");
+//                }
+//            }
+//        });
+
         spinner = findViewById(R.id.sp_select);
         adapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,deviceIds);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -134,6 +148,7 @@ public class MainActivity extends AppCompatActivity
 //        mWaterPressureMode = findViewById(R.id.tv_water_pressure);
 //        mWaterFlowMode = findViewById(R.id.tv_water_flow);
         mTimerMode = findViewById(R.id.tv_timer);
+        mSwitchTiming = findViewById(R.id.switch_timing);
         mFailLess = findViewById(R.id.btn_water_pressure_less);
         mFailMore = findViewById(R.id.btn_water_pressure_more);
         mFailOver = findViewById(R.id.btn_overload);
@@ -152,6 +167,7 @@ public class MainActivity extends AppCompatActivity
 
         mSend.setSelected(true);
         mTarget.clearFocus();
+        mTimerMode.setSelected(true);
 
         mSwitch.setOnClickListener(this);
 //        mWaterPressureMode.setOnClickListener(this);
@@ -160,6 +176,20 @@ public class MainActivity extends AppCompatActivity
         mSend.setOnClickListener(this);
         mAddWP.setOnClickListener(this);
         mReduceWP.setOnClickListener(this);
+        mSwitchTiming.setOnCheckedChangeListener(this);
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            switch (buttonView.getId()){
+                case R.id.switch_timing:
+                    if(isChecked){
+                        System.out.println("------------------开");
+                    }else {
+                        System.out.println("----------------------关");
+                    }
+                    break;
+            }
     }
 
     @Override
@@ -195,6 +225,10 @@ public class MainActivity extends AppCompatActivity
 //                InfoEntityData.setMsgType(3);
 //                break;
             case R.id.tv_timer:
+                break;
+            case R.id.switch_timing:
+
+                System.out.println("---------------------------------终于等到你");
                 break;
             case R.id.btn_send:
                 try {
@@ -374,7 +408,6 @@ public class MainActivity extends AppCompatActivity
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-
                     }
                 }else if(DashboardView.getmRealTimeValue() >= currentNum){
                     for(int i = DashboardView.getmRealTimeValue();i >= currentNum;i--){
@@ -384,7 +417,6 @@ public class MainActivity extends AppCompatActivity
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-
                     }
                 }
             }
@@ -685,11 +717,11 @@ public class MainActivity extends AppCompatActivity
             if (parasBean.getMode() == WATER_PRESSURE_MODE){
                 parasBean.setMode(WATER_FLOW_MODE);
                 InfoEntityData.setMsgType(3);
-                Toast.makeText(getApplicationContext(), "水流模式", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "水流模式", Toast.LENGTH_SHORT).show();
             }else if(parasBean.getMode() == WATER_FLOW_MODE){
                 parasBean.setMode(WATER_PRESSURE_MODE);
                 InfoEntityData.setMsgType(3);
-                Toast.makeText(getApplicationContext(), "水压模式", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "水压模式", Toast.LENGTH_SHORT).show();
             }
 
             // 发送消息
