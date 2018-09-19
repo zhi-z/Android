@@ -42,6 +42,8 @@ public class PumperControlEntity {
         private int MsgType;
         private int WaterPressur;
         private int Status;
+        private int setTiming;
+        private int refreshData;
 
         public int getMode() {
             return Mode;
@@ -73,6 +75,22 @@ public class PumperControlEntity {
 
         public void setStatus(int Status) {
             this.Status = Status;
+        }
+
+        public int getSetTiming() {
+            return setTiming;
+        }
+
+        public void setSetTiming(int setTiming) {
+            this.setTiming = setTiming;
+        }
+
+        public int getRefreshData() {
+            return refreshData;
+        }
+
+        public void setRefreshData(int refreshData) {
+            this.refreshData = refreshData;
         }
     }
 }

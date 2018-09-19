@@ -12,6 +12,7 @@ public class InfoEntityData extends Application{
     private PumperDisplayEntity infoEntity;
     private static String Url = "https://eiiman.raindi.net/api/pumper.json";
     private static String sendUrl = "https://eiiman.raindi.net/api/pumperctl";
+    private static int msgType = 0;
 
     public static String getUrl() {
         return Url;
@@ -33,5 +34,13 @@ public class InfoEntityData extends Application{
 
     public void setInfoEntity(PumperDisplayEntity infoEntity) {
         this.infoEntity = infoEntity;
+    }
+
+    public static int getMsgType() {
+        return msgType;
+    }
+
+    public static void setMsgType(int msgType) {
+        InfoEntityData.msgType = msgType;
     }
 }

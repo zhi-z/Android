@@ -12,7 +12,7 @@
         <item
             android:id="@+id/nav_unit_switch"
             android:icon="@drawable/ic_menu_unit_switch"
-            android:title="单位切换" />
+            android:title="模式切换" />
         <item
             android:id="@+id/nav_question"
             android:icon="@drawable/ic_menu_question"

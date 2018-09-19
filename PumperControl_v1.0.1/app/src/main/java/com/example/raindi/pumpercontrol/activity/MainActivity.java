@@ -131,8 +131,8 @@ public class MainActivity extends AppCompatActivity
 
     }
     private void initView() {
-        mWaterPressureMode = findViewById(R.id.tv_water_pressure);
-        mWaterFlowMode = findViewById(R.id.tv_water_flow);
+//        mWaterPressureMode = findViewById(R.id.tv_water_pressure);
+//        mWaterFlowMode = findViewById(R.id.tv_water_flow);
         mTimerMode = findViewById(R.id.tv_timer);
         mFailLess = findViewById(R.id.btn_water_pressure_less);
         mFailMore = findViewById(R.id.btn_water_pressure_more);
@@ -154,8 +154,8 @@ public class MainActivity extends AppCompatActivity
         mTarget.clearFocus();
 
         mSwitch.setOnClickListener(this);
-        mWaterPressureMode.setOnClickListener(this);
-        mWaterFlowMode.setOnClickListener(this);
+//        mWaterPressureMode.setOnClickListener(this);
+//        mWaterFlowMode.setOnClickListener(this);
         mTimerMode.setOnClickListener(this);
         mSend.setOnClickListener(this);
         mAddWP.setOnClickListener(this);
@@ -167,30 +167,33 @@ public class MainActivity extends AppCompatActivity
         if (controlEntity == null || parasBean == null){
             return;
         }
-        int msgType = 0;
+        InfoEntityData.setMsgType(0);
         switch (view.getId()){
             case R.id.iv_switch:
-                msgType = 2;
+//                msgType = 2;
+                InfoEntityData.setMsgType(2);
                 if (parasBean.getStatus() == OPEN){
                     parasBean.setStatus(CLOSE);
                 }else if (parasBean.getStatus() == CLOSE){
                     parasBean.setStatus(OPEN);
                 }
                 break;
-            case R.id.tv_water_pressure:
-                if (parasBean.getMode() == WATER_PRESSURE_MODE){
-                    return;
-                }
-                parasBean.setMode(WATER_PRESSURE_MODE);
-                msgType = 3;
-                break;
-            case R.id.tv_water_flow:
-                if (parasBean.getMode() == WATER_FLOW_MODE){
-                    return;
-                }
-                parasBean.setMode(WATER_FLOW_MODE);
-                msgType = 3;
-                break;
+//            case R.id.tv_water_pressure:
+//                if (parasBean.getMode() == WATER_PRESSURE_MODE){
+//                    return;
+//                }
+//                parasBean.setMode(WATER_PRESSURE_MODE);
+////                msgType = 3;
+//                InfoEntityData.setMsgType(3);
+//                break;
+//            case R.id.tv_water_flow:
+//                if (parasBean.getMode() == WATER_FLOW_MODE){
+//                    return;
+//                }
+//                parasBean.setMode(WATER_FLOW_MODE);
+////                msgType = 3;
+//                InfoEntityData.setMsgType(3);
+//                break;
             case R.id.tv_timer:
                 break;
             case R.id.btn_send:
@@ -205,7 +208,8 @@ public class MainActivity extends AppCompatActivity
                     sendTarget = (int) (target*100);
                     parasBean.setWaterPressur(sendTarget);
                     System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>send:"+sendTarget);
-                    msgType = 1;
+//                    msgType = 1;
+                    InfoEntityData.setMsgType(1);
                 }
                 catch(Exception e) {
                     System.out.println("---------------------发送错误----------------------------");
@@ -243,10 +247,11 @@ public class MainActivity extends AppCompatActivity
                 mTarget.setSelection(mTarget.getText().toString().length());
                 break;
         }
-        if (msgType == 0){
+        if (InfoEntityData.getMsgType() == 0){
             return;
         }
-        parasBean.setMsgType(msgType);
+//        parasBean.setMsgType(msgType);
+        parasBean.setMsgType(InfoEntityData.getMsgType());
         controlEntity.setParas(parasBean);
         singleThreadExecutor.execute(new Runnable() {
             @Override
@@ -400,9 +405,6 @@ public class MainActivity extends AppCompatActivity
 //            mCurrentWaterPressure.setText(getString(R.string.set_water_pressure_kg,waterPressure));
 //        }
 
-
-
-
         switch (key){
             case OPEN:
                 mSwitch.setSelected(true);
@@ -414,31 +416,31 @@ public class MainActivity extends AppCompatActivity
 
         switch (mode){
             case WATER_PRESSURE_MODE:
-                mWaterPressureMode.setSelected(true);
+//                mWaterPressureMode.setSelected(true);
                 break;
             case WATER_FLOW_MODE:
-                mWaterFlowMode.setSelected(true);
+//                mWaterFlowMode.setSelected(true);
                 break;
         }
 
-        if (lackWater == 1){
+        if (lackWater == 1){  //缺水
             mFailWaterLess.setActivated(true);
         }
 
         switch (error){
-            case LESS:
+            case LESS: // 欠压
                 mFailLess.setActivated(true);
                 break;
-            case MORE:
+            case MORE: //过压
                 mFailMore.setActivated(true);
                 break;
-            case SENSOR:
+            case SENSOR: //传感器
                 mFailSensor.setActivated(true);
                 break;
-            case CURRENT:
+            case CURRENT: //过流
                 mFailCurrent.setActivated(true);
                 break;
-            case OVER:
+            case OVER://过载
                 mFailOver.setActivated(true);
                 break;
         }
@@ -447,8 +449,8 @@ public class MainActivity extends AppCompatActivity
     private void resetButton(){
         mSwitch.setSelected(false);
         mSwitch.setActivated(false);
-        mWaterPressureMode.setSelected(false);
-        mWaterFlowMode.setSelected(false);
+//        mWaterPressureMode.setSelected(false);
+//        mWaterFlowMode.setSelected(false);
         mFailWaterLess.setActivated(false);
         mFailLess.setActivated(false);
         mFailMore.setActivated(false);
@@ -680,20 +682,44 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(MainActivity.this,CopyrightActivity.class);
             startActivity(intent);
         }else if(id == R.id.nav_unit_switch){
-            preferences = getSharedPreferences("UNIT_SWITCH", Activity.MODE_PRIVATE);
-            editor = preferences.edit();
-            if(preferences.getBoolean("unitSwitchFlag",true)){
-                editor.putBoolean("unitSwitchFlag",false);
-                if(editor.commit()){
-                    Toast.makeText(getApplicationContext(), "切换成功", Toast.LENGTH_SHORT).show();
-                }
-            }else {
-                editor.putBoolean("unitSwitchFlag",true);
-                if(editor.commit()){
-                    Toast.makeText(getApplicationContext(), "切换成功", Toast.LENGTH_SHORT).show();
-                }
+            if (parasBean.getMode() == WATER_PRESSURE_MODE){
+                parasBean.setMode(WATER_FLOW_MODE);
+                InfoEntityData.setMsgType(3);
+                Toast.makeText(getApplicationContext(), "水流模式", Toast.LENGTH_SHORT).show();
+            }else if(parasBean.getMode() == WATER_FLOW_MODE){
+                parasBean.setMode(WATER_PRESSURE_MODE);
+                InfoEntityData.setMsgType(3);
+                Toast.makeText(getApplicationContext(), "水压模式", Toast.LENGTH_SHORT).show();
             }
 
+            // 发送消息
+            parasBean.setMsgType(InfoEntityData.getMsgType());
+            controlEntity.setParas(parasBean);
+            singleThreadExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+//                String result = queryProtocol.sendControl(controlEntity);
+                    String result = (new QueryProtocol(getApplicationContext())).sendControl(controlEntity);
+                    Logger.D("control result:"+result);
+                    if (result != null && result.equals("\"ok\"")){
+                        hasSendCMD();
+                    }
+                }
+            });
+
+//            preferences = getSharedPreferences("UNIT_SWITCH", Activity.MODE_PRIVATE);
+//            editor = preferences.edit();
+//            if(preferences.getBoolean("unitSwitchFlag",true)){
+//                editor.putBoolean("unitSwitchFlag",false);
+//                if(editor.commit()){
+//                    Toast.makeText(getApplicationContext(), "切换成功", Toast.LENGTH_SHORT).show();
+//                }
+//            }else {
+//                editor.putBoolean("unitSwitchFlag",true);
+//                if(editor.commit()){
+//                    Toast.makeText(getApplicationContext(), "切换成功", Toast.LENGTH_SHORT).show();
+//                }
+//            }
 
         }
 
