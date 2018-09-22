@@ -82,7 +82,13 @@ public class PumperDisplayEntity {
         private int power;
         private int target;
         private int pressure;
+        private int waterLessStatus;
+        private int runningTime;
+        private int runningStatus;
+        private int targetTime;
+        private int realTimeTiming;
         private String updated;
+
 
         public String getDeviceId() {
             return deviceId;
@@ -188,6 +194,47 @@ public class PumperDisplayEntity {
             this.pressure = pressure;
         }
 
+
+
+        public int getWaterLessStatus() {
+            return waterLessStatus;
+        }
+
+        public void setWaterLessStatus(int waterLessStatus) {
+            this.waterLessStatus = waterLessStatus;
+        }
+
+        public int getRunningTime() {
+            return runningTime;
+        }
+
+        public void setRunningTime(int runningTime) {
+            this.runningTime = runningTime;
+        }
+
+        public int getRunningStatus() {
+            return runningStatus;
+        }
+
+        public void setRunningStatus(int runningStatus) {
+            this.runningStatus = runningStatus;
+        }
+
+        public int getTargetTime() {
+            return targetTime;
+        }
+
+        public void setTargetTime(int targetTime) {
+            this.targetTime = targetTime;
+        }
+
+        public int getRealTimeTiming() {
+            return realTimeTiming;
+        }
+
+        public void setRealTimeTiming(int realTimeTiming) {
+            this.realTimeTiming = realTimeTiming;
+        }
         public String getUpdated() {
             return updated;
         }

@@ -21,6 +21,7 @@
     <string name="water_stream_mode">水流</string>
     <string name="timer_mode">定时</string>
     <string name="set_water_pressure">当前水压:%1$skPa</string>
+    <string name="set_target_pressure">目标水压:%1$skPa</string>
     <string name="set_water_pressure_kpa">当前水压:%1$skPa</string>
     <string name="set_water_pressure_kg">当前水压:%1$skg/cm2</string>
     <string name="no_warn">无故障</string>
@@ -38,5 +39,41 @@
     <string name="ok">确定</string>
     <string name="pressure">压力</string>
     <string name="title_activity_view_demo">ViewDemoActivity</string>
+
+    <array name="main_home_menu">
+        <item >0分钟</item>
+        <item >1分钟</item>
+        <item >2分钟</item>
+        <item >3分钟</item>
+        <item >4分钟</item>
+        <item >5分钟</item>
+        <item >6分钟</item>
+        <item >7分钟</item>
+        <item >8分钟</item>
+        <item >9分钟</item>
+        <item >10分钟</item>
+        <item >11分钟</item>
+        <item >12分钟</item>
+        <item >13分钟</item>
+        <item >14分钟</item>
+        <item >15分钟</item>
+        <item >16分钟</item>
+        <item >17分钟</item>
+        <item >18分钟</item>
+        <item >19分钟</item>
+        <item >20分钟</item>
+        <item >21分钟</item>
+        <item >23分钟</item>
+        <item >24分钟</item>
+        <item >25分钟</item>
+        <item >26分钟</item>
+        <item >27分钟</item>
+        <item >28分钟</item>
+        <item >29分钟</item>
+        <item >30分钟</item>
+    </array>
+
+    <string name="app_cancel">取消</string>
+    <string name="app_sure">确定</string>
 
 </resources>

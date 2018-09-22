@@ -5,8 +5,10 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.NavigationView;
@@ -31,6 +33,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bruce.pickerview.popwindow.DatePickerPopWin;
 import com.example.raindi.pumpercontrol.R;
 import com.example.raindi.pumpercontrol.data.InfoEntityData;
 import com.example.raindi.pumpercontrol.entities.PumperControlEntity;
@@ -56,7 +59,7 @@ public class MainActivity extends AppCompatActivity
     private DashboardView mDashboardView;
 
     private String TAG = "yjx";
-    private Button mFailLess, mFailMore,mFailOver,mFailSensor,mFailCurrent,mFailWaterLess,mSend;
+    private Button mFailLess, mFailMore,mFailOver,mFailSensor,mFailCurrent,mFailWaterLess,mSend,mTimingSend;
     private Switch mSwitchTiming;
     public static boolean mChecked = true;
     ExecutorService singleThreadExecutor;
@@ -74,15 +77,19 @@ public class MainActivity extends AppCompatActivity
     private final int OVER = 6;
     private final int SENSOR = 3;
     private final int CURRENT = 5;
-    private EditText mTarget;
+    private EditText mTarget,mSetTimer;
     private LinearLayout mDeviceIdL;
-    private TextView mDeviceStatus,mWaterPressureMode,mWaterFlowMode,mTimerMode,mCurrentWaterPressure;
+    private TextView mDeviceStatus,mWaterPressureMode,mWaterFlowMode,mTimerMode,mCurrentWaterPressure,mRunningStatus,mRealTimeTiming,mTargetPressure;
     private PumperControlEntity controlEntity;
     private PumperControlEntity.ParasBean parasBean;
-    private int selectId =0,etWater = 0;
-    private ImageView mAddWP,mReduceWP,mSwitch;
+    private int selectId =0,etWater = 0,etTime = 0;
+    private ImageView mAddWP,mReduceWP,mSwitch,mReduceTime,mAddTime;
     private AlertDialog stateDialog;
     private PumperDisplayEntity.ResultsBean resultsBean;
+    private long time=20*1000;//倒计时的总时间 ms
+    private CountDownTimer downTimer;
+    private  boolean timeRunning = true;
+    private boolean execQueryFlag = true;
 
 
     @Override
@@ -122,17 +129,6 @@ public class MainActivity extends AppCompatActivity
 
         initView();
 
-//        mSwitchTiming.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if(isChecked){
-//                    System.out.println("------------------开");
-//                }else {
-//                    System.out.println("----------------------关");
-//                }
-//            }
-//        });
-
         spinner = findViewById(R.id.sp_select);
         adapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,deviceIds);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -145,10 +141,11 @@ public class MainActivity extends AppCompatActivity
 
     }
     private void initView() {
-//        mWaterPressureMode = findViewById(R.id.tv_water_pressure);
-//        mWaterFlowMode = findViewById(R.id.tv_water_flow);
+        mWaterPressureMode = findViewById(R.id.tv_water_pressure);
+        mWaterFlowMode = findViewById(R.id.tv_water_flow);
+        mRunningStatus = findViewById(R.id.tv_running_status);
         mTimerMode = findViewById(R.id.tv_timer);
-        mSwitchTiming = findViewById(R.id.switch_timing);
+//        mSwitchTiming = findViewById(R.id.switch_timing);
         mFailLess = findViewById(R.id.btn_water_pressure_less);
         mFailMore = findViewById(R.id.btn_water_pressure_more);
         mFailOver = findViewById(R.id.btn_overload);
@@ -164,32 +161,78 @@ public class MainActivity extends AppCompatActivity
         mAddWP = findViewById(R.id.iv_add_water_pressure);
         mReduceWP = findViewById(R.id.iv_reduce_water_pressure);
 
+        mReduceTime = findViewById(R.id.iv_reduce_time);
+        mAddTime = findViewById(R.id.iv_add_time);
+        mTimingSend = findViewById(R.id.btn_timing_send);
+        mSetTimer = findViewById(R.id.et_set_timer);
+        mRealTimeTiming  = findViewById(R.id.tv_real_time_timing);
+        mTargetPressure = findViewById(R.id.tv_target_pressure);
+
 
         mSend.setSelected(true);
         mTarget.clearFocus();
         mTimerMode.setSelected(true);
 
         mSwitch.setOnClickListener(this);
-//        mWaterPressureMode.setOnClickListener(this);
-//        mWaterFlowMode.setOnClickListener(this);
+        mWaterPressureMode.setOnClickListener(this);
+        mWaterFlowMode.setOnClickListener(this);
         mTimerMode.setOnClickListener(this);
+
         mSend.setOnClickListener(this);
         mAddWP.setOnClickListener(this);
         mReduceWP.setOnClickListener(this);
-        mSwitchTiming.setOnCheckedChangeListener(this);
+
+        mReduceTime.setOnClickListener(this);
+        mAddTime.setOnClickListener(this);
+        mTimingSend.setOnClickListener(this);
+//        mSwitchTiming.setOnCheckedChangeListener(this);
+
     }
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            switch (buttonView.getId()){
-                case R.id.switch_timing:
-                    if(isChecked){
-                        System.out.println("------------------开");
-                    }else {
-                        System.out.println("----------------------关");
-                    }
-                    break;
-            }
+//            switch (buttonView.getId()){
+//                case R.id.switch_timing:
+//                    if(isChecked){
+////                        execQueryFlag = false;
+////                        timePickerPopWin();  // 设定时间
+////                        mSetTimer.setEnabled(true);
+////                        timeRunning = true;
+//                    }else {
+//                        try{
+//                            downTimer.cancel();//暂停
+//                        }catch (Exception e){
+//                            System.out.println("-----------------------定时器未开启，不需要关闭");
+//                        }finally {
+//                            mSetTimer.setEnabled(false);
+//                            timeRunning = false;
+//                            parasBean.setSetTiming(0);
+//
+//                            InfoEntityData.setMsgType(4);
+//
+//                            if (InfoEntityData.getMsgType() == 0){
+//                                System.out.println("错误");
+//                                return;
+//                            }
+//                            parasBean.setMsgType(InfoEntityData.getMsgType());
+//                            parasBean.setRefreshData(1);  // 数据刷新
+//                            controlEntity.setParas(parasBean);
+//                            singleThreadExecutor.execute(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    String result = (new QueryProtocol(getApplicationContext())).sendControl(controlEntity);
+//                                    Logger.D("control result:"+result);
+//                                    if (result != null && result.equals("\"ok\"")){
+//                                        System.out.println("定时器已关闭");
+//                                    }
+//                                }
+//                            });
+//
+//                        }
+//
+//                    }
+//                    break;
+//            }
     }
 
     @Override
@@ -208,35 +251,70 @@ public class MainActivity extends AppCompatActivity
                     parasBean.setStatus(OPEN);
                 }
                 break;
-//            case R.id.tv_water_pressure:
-//                if (parasBean.getMode() == WATER_PRESSURE_MODE){
-//                    return;
-//                }
-//                parasBean.setMode(WATER_PRESSURE_MODE);
-////                msgType = 3;
-//                InfoEntityData.setMsgType(3);
-//                break;
-//            case R.id.tv_water_flow:
-//                if (parasBean.getMode() == WATER_FLOW_MODE){
-//                    return;
-//                }
-//                parasBean.setMode(WATER_FLOW_MODE);
-////                msgType = 3;
-//                InfoEntityData.setMsgType(3);
-//                break;
-            case R.id.tv_timer:
-                break;
-            case R.id.switch_timing:
 
-                System.out.println("---------------------------------终于等到你");
+            case R.id.tv_timer:
+                if(parasBean.getSetTiming() == 0){
+                    mReduceTime.setEnabled(true);
+                    mAddTime.setEnabled(true);
+                    mTimingSend.setSelected(true);
+                    mTimingSend.setEnabled(true);
+                    mSetTimer.setEnabled(true);
+                }else{
+                    mReduceTime.setEnabled(false);
+                    mAddTime.setEnabled(false);
+                    mTimingSend.setSelected(false);
+                    mTimingSend.setEnabled(false);
+                    mTimerMode.setSelected(false);
+                    parasBean.setSetTiming(0);
+                    mSetTimer.setEnabled(false);
+                    timeRunning = false;
+                    mRealTimeTiming.setText(" ");
+                    InfoEntityData.setMsgType(4);
+                }
+
                 break;
+
+            case R.id.et_set_timer:
+
+                break;
+            case R.id.iv_reduce_time:
+                int timeReduce = Integer.parseInt(mSetTimer.getText().toString())-1;
+                if (timeReduce < 0){
+                    timeReduce = 0;
+                }else if (timeReduce > 999){
+                    timeReduce = 999;
+                }
+                String timeReduce1 = timeReduce +"";
+                mSetTimer.setText(timeReduce1);
+                mSetTimer.setSelection(mSetTimer.getText().toString().length());
+
+                break;
+            case R.id.iv_add_time:
+                int timeAdd = Integer.parseInt(mSetTimer.getText().toString())+1;
+                if (timeAdd < 0){
+                    timeAdd = 0;
+                }else if (timeAdd > 999){
+                    timeAdd = 999;
+                }
+                String timeAdd1 = timeAdd +"";
+                mSetTimer.setText(timeAdd1);
+                mSetTimer.setSelection(mSetTimer.getText().toString().length());
+
+                break;
+
+            case R.id.btn_timing_send:
+                int time = Integer.parseInt(mSetTimer.getText().toString());
+                System.out.println("发送");
+                parasBean.setSetTiming(time);
+                InfoEntityData.setMsgType(4);
+                break;
+
             case R.id.btn_send:
                 try {
                     int sendTarget;
                     //int target = Integer.parseInt(mTarget.getText().toString());  //这里的人target是从activity中获取的，是小数点的字符串类型
                     double target = Double.valueOf(mTarget.getText().toString());
-                    System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>:"+target);
-                    if (((double)(parasBean.getWaterPressur()/100)) == target){
+                    if (((double)(parasBean.getWaterPressur())) == target){
                         return;
                     }
                     sendTarget = (int) (target*100);
@@ -280,31 +358,32 @@ public class MainActivity extends AppCompatActivity
                 mTarget.setText(waterPressure1);
                 mTarget.setSelection(mTarget.getText().toString().length());
                 break;
-        }
-        if (InfoEntityData.getMsgType() == 0){
-            return;
-        }
-//        parasBean.setMsgType(msgType);
-        parasBean.setMsgType(InfoEntityData.getMsgType());
-        controlEntity.setParas(parasBean);
-        singleThreadExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-//                String result = queryProtocol.sendControl(controlEntity);
-                String result = (new QueryProtocol(getApplicationContext())).sendControl(controlEntity);
-                Logger.D("control result:"+result);
-                if (result != null && result.equals("\"ok\"")){
-                    hasSendCMD();
+            case R.id.tv_water_pressure:
+                if (parasBean.getMode() == WATER_PRESSURE_MODE){
+                    return;
                 }
-            }
-        });
+                parasBean.setMode(WATER_PRESSURE_MODE);
+//                msgType = 3;
+                InfoEntityData.setMsgType(3);
+                break;
+            case R.id.tv_water_flow:
+                if (parasBean.getMode() == WATER_FLOW_MODE){
+                    return;
+                }
+                parasBean.setMode(WATER_FLOW_MODE);
+//                msgType = 3;
+                InfoEntityData.setMsgType(3);
+                break;
+        }
+        sendMsg(); // 发送消息
     }
 
-    class SpinnerSelectedListener implements AdapterView.OnItemSelectedListener {
+    class SpinnerSelectedListener implements AdapterView.OnItemSelectedListener {   // 当选择发生改变时触发
 
         public void onItemSelected(AdapterView<?> arg0, View arg1, int position,
                                    long arg3) {
             selectId = position;
+            timeRunning = true;
             setPumpDisplay(position);
         }
 
@@ -334,6 +413,11 @@ public class MainActivity extends AppCompatActivity
         int target = resultsBean.getTarget(); //从数据库获取的数据，获取到的数据例如：240
         int currentWaterPressure = resultsBean.getPressure();
         int error = resultsBean.getError();
+        int realTimeTiming = resultsBean.getRealTimeTiming();
+        int runningStatus = resultsBean.getRunningStatus();
+        int targetTime = resultsBean.getTargetTime();
+        int waterLessStatus = resultsBean.getWaterLessStatus();
+
         String status = resultsBean.getStatus();
         Logger.D("position:"+position+",name:"+resultsBean.getDeviceName()+",key:"+key+",mode:"+mode+",error:"+error);
         String deviceId = resultsBean.getDeviceId();
@@ -343,6 +427,8 @@ public class MainActivity extends AppCompatActivity
         parasBean.setMode(mode);
         parasBean.setWaterPressur(target);
         parasBean.setStatus(key);
+        parasBean.setSetTiming(realTimeTiming);
+
         if (target < 0){
             target = 0;
         }else if (target > 800){
@@ -355,6 +441,40 @@ public class MainActivity extends AppCompatActivity
             mTarget.setText(target+"");
             mTarget.setSelection(mTarget.getText().toString().length());
         }
+
+        if (etTime != realTimeTiming){
+            etTime = realTimeTiming;
+            mSetTimer.setText(realTimeTiming + "");
+            mSetTimer.setSelection(mSetTimer.getText().toString().length());
+        }
+
+        mTarget.setSelection(mTarget.getText().toString().length());
+        mTargetPressure.setText(getString(R.string.set_target_pressure,target));
+
+
+        realTimeTiming = 10;
+        if(timeRunning & (realTimeTiming != 0)){  // 当时间定时器时间不为0时候，开启定时
+            try{
+                downTimer.cancel();//暂停
+            }catch (Exception e){
+                            System.out.println("-----------------------定时器未开启，不需要关闭");
+            }finally {
+                mReduceTime.setEnabled(true);
+                mAddTime.setEnabled(true);
+                mTimingSend.setSelected(true);
+                mTimingSend.setEnabled(true);
+                timeRunning = false;
+                mTimerMode.setSelected(true);
+                openTimer(realTimeTiming);         //打开计时器，没开启
+                downTimer.start();//开始倒计时
+            }
+        }
+
+
+//        if (parasBean.getSetTiming() == 0){
+//            mSwitchTiming.setChecked(false);
+//            mSetTimer.setEnabled(false);
+//        }
 
         // Bar与kg/cm2单位显示
 //        double targetShow;
@@ -448,14 +568,24 @@ public class MainActivity extends AppCompatActivity
 
         switch (mode){
             case WATER_PRESSURE_MODE:
-//                mWaterPressureMode.setSelected(true);
+                mWaterPressureMode.setSelected(true);
                 break;
             case WATER_FLOW_MODE:
-//                mWaterFlowMode.setSelected(true);
+                mWaterFlowMode.setSelected(false);
                 break;
         }
 
-        if (lackWater == 1){  //缺水
+        if(runningStatus == 1){
+            mRunningStatus.setSelected(true);
+        }else {
+            mRunningStatus.setSelected(false);
+        }
+
+//        if (lackWater == 1){  //缺水
+//            mFailWaterLess.setActivated(true);
+//        }
+
+        if(waterLessStatus == 1){ //缺水
             mFailWaterLess.setActivated(true);
         }
 
@@ -481,8 +611,11 @@ public class MainActivity extends AppCompatActivity
     private void resetButton(){
         mSwitch.setSelected(false);
         mSwitch.setActivated(false);
-//        mWaterPressureMode.setSelected(false);
-//        mWaterFlowMode.setSelected(false);
+        mWaterPressureMode.setSelected(false);
+        mWaterFlowMode.setSelected(false);
+
+//        mTimerMode.setSelected(false);
+
         mFailWaterLess.setActivated(false);
         mFailLess.setActivated(false);
         mFailMore.setActivated(false);
@@ -534,7 +667,11 @@ public class MainActivity extends AppCompatActivity
         @Override
         public void run() {
             if (mChecked){
-                execQuery();
+                if(execQueryFlag){
+                    execQuery();
+                }
+                else{
+                }
                 handler.postDelayed(this, 5000);
             }
         }
@@ -614,6 +751,7 @@ public class MainActivity extends AppCompatActivity
     public InfoEntityData getInfoEntityData(){
         return (InfoEntityData)getApplicationContext();
     }
+
 
     // 数据类型判断
     public static String getType(Object o){
@@ -724,20 +862,7 @@ public class MainActivity extends AppCompatActivity
 //                Toast.makeText(getApplicationContext(), "水压模式", Toast.LENGTH_SHORT).show();
             }
 
-            // 发送消息
-            parasBean.setMsgType(InfoEntityData.getMsgType());
-            controlEntity.setParas(parasBean);
-            singleThreadExecutor.execute(new Runnable() {
-                @Override
-                public void run() {
-//                String result = queryProtocol.sendControl(controlEntity);
-                    String result = (new QueryProtocol(getApplicationContext())).sendControl(controlEntity);
-                    Logger.D("control result:"+result);
-                    if (result != null && result.equals("\"ok\"")){
-                        hasSendCMD();
-                    }
-                }
-            });
+            sendMsg(); // 发送消息
 
 //            preferences = getSharedPreferences("UNIT_SWITCH", Activity.MODE_PRIVATE);
 //            editor = preferences.edit();
@@ -758,5 +883,108 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    // 发送消息
+    public void sendMsg(){
+        if (InfoEntityData.getMsgType() == 0){
+            return;
+        }
+//        parasBean.setMsgType(msgType);
+        parasBean.setMsgType(InfoEntityData.getMsgType());
+        parasBean.setRefreshData(1);  // 数据刷新
+        controlEntity.setParas(parasBean);
+        singleThreadExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+//                String result = queryProtocol.sendControl(controlEntity);
+                String result = (new QueryProtocol(getApplicationContext())).sendControl(controlEntity);
+                Logger.D("control result:"+result);
+                if (result != null && result.equals("\"ok\"")){
+                    hasSendCMD();
+                }
+            }
+        });
+    }
+
+    // 计时器
+    private void initTimer() {
+        //1000 表示 每过1000ms 执行一次 onTick()
+        downTimer = new CountDownTimer(time,1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                time -= 1000;
+
+                System.out.println("---------------------minute:" + time / 1000);
+                if(time >= 0){
+                    mRealTimeTiming.setText(time / 1000 + "");
+                }
+
+            }
+
+
+            @Override
+            public void onFinish() {
+                mReduceTime.setEnabled(false);
+                mAddTime.setEnabled(false);
+                mTimingSend.setSelected(false);
+                mTimingSend.setEnabled(false);
+                mTimerMode.setSelected(false);
+                mSetTimer.setEnabled(false);
+                timeRunning = false;
+
+                mRealTimeTiming.setText(" ");
+
+                InfoEntityData.setMsgType(2);
+                if (parasBean.getStatus() == OPEN){
+                    parasBean.setStatus(CLOSE);
+                }
+
+                if (InfoEntityData.getMsgType() == 0){
+                    return;
+                }
+                parasBean.setMsgType(InfoEntityData.getMsgType());
+                parasBean.setRefreshData(1);  // 数据刷新
+                controlEntity.setParas(parasBean);
+                singleThreadExecutor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        String result = (new QueryProtocol(getApplicationContext())).sendControl(controlEntity);
+                        Logger.D("control result:"+result);
+                        if (result != null && result.equals("\"ok\"")){
+                            System.out.println("-------------------------------设备关闭");
+
+                        }
+                    }
+                });
+            }
+        };
+    }
+
+
+
+    public void openTimer(int time_second){
+        time = time_second * 1000;  // 设定时间
+        initTimer();
+
+    }
+
+    public void showTimehhmmss(int hour,int minute,int second){
+        String hourString = hour + "";
+        String minuteString = minute + "";
+        String secondString = second + "";
+
+        if(hourString.length() == 1){
+            hourString = "0" + hourString;
+        }
+        if(minuteString.length() == 1){
+            minuteString = "0" + minuteString;
+        }
+        if(secondString.length() == 1){
+            secondString = "0" + secondString;
+        }
+
+//        mSetTimer.setText(hourString + ":" + minuteString + ":" + secondString);
     }
 }

@@ -285,12 +285,10 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
             Calendar calendar = Calendar.getInstance(Locale.CHINA);
 
             if (milliseconds != -1) {
-
                 calendar.setTimeInMillis(milliseconds);
                 yearPos = calendar.get(Calendar.HOUR) - minYear;
                 monthPos = calendar.get(Calendar.MINUTE);
-                dayPos = calendar.get(Calendar.DAY_OF_MONTH) - 1;
-                //dayPos = 59;
+                dayPos = calendar.get(Calendar.SECOND) - 1;
             }
         }
     }
@@ -378,13 +376,13 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
     }
 
     /**
-     * get long from yyyy-MM-dd
+     * get long from hh:mm:ss
      *
      * @param date
      * @return
      */
     public static long getLongFromyyyyMMdd(String date) {
-        SimpleDateFormat mFormat = new SimpleDateFormat("yyyy:MM:dd", Locale.getDefault());
+        SimpleDateFormat mFormat = new SimpleDateFormat("hh:mm:ss", Locale.getDefault());
         Date parse = null;
         try {
             parse = mFormat.parse(date);
@@ -399,7 +397,7 @@ public class DatePickerPopWin extends PopupWindow implements OnClickListener {
     }
 
     public static String getStrDate() {
-        SimpleDateFormat dd = new SimpleDateFormat("yyyy:MM:dd", Locale.CHINA);
+        SimpleDateFormat dd = new SimpleDateFormat("hh:mm:ss", Locale.CHINA);
         return dd.format(new Date());
     }
 
