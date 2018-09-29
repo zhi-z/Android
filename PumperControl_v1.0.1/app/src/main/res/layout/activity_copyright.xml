@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            android:text="版本：1.0.1  "
+            android:text="版本：1.0.4  "
             android:textSize="20dp" />
 
     </RelativeLayout>

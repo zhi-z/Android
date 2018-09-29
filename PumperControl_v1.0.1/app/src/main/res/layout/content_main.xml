@@ -6,525 +6,615 @@
     android:background="@color/gray"
     tools:context="com.example.raindi.pumpercontrol.activity.MainActivity">
 
-    <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_above="@id/logo"
-        >
-
-        <LinearLayout
+    <!--<com.handmark.pulltorefresh.library.PullToRefreshListView-->
+        <!--android:id="@+id/pull_to_refresh_list_view"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+    <!--</com.handmark.pulltorefresh.library.PullToRefreshListView>-->
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="vertical"
-            >
-
-            <RelativeLayout
-                android:id="@+id/ll0"
-                android:layout_width="match_parent"
-                android:layout_height="218dp"
-                android:background="@drawable/banner"
+            android:layout_height="match_parent">
+            <ScrollView
+                android:id="@+id/scrollViewLayout"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_above="@id/logo"
                 >
 
-                <RelativeLayout
-                    android:layout_width="186dp"
-                    android:layout_height="186dp"
-                    android:layout_centerInParent="true"
-                    android:background="@drawable/round"
-                    >
-
-                    <TextView
-                        android:id="@+id/tv_device_status"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_above="@id/view"
-                        android:layout_marginBottom="16dp"
-                        android:text="@string/app_name"
-                        android:textColor="@color/white"
-                        android:visibility="visible"
-                        />
-
-                    <View
-                        android:id="@+id/view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="0.5dp"
-                        android:layout_centerInParent="true"
-                        />
-
-                    <ImageView
-                        android:id="@+id/iv_switch"
-                        android:layout_width="113dp"
-                        android:layout_height="36dp"
-                        android:background="@drawable/switch_selector"
-                        android:layout_centerHorizontal="true"
-                        android:layout_below="@id/view"
-                        tools:ignore="contentDescription"
-                        />
-
-                </RelativeLayout>
-
-            </RelativeLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_deviceId"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:orientation="horizontal"
-                android:visibility="visible"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/device_id"
-                    android:textSize="12sp" />
-
-                <Spinner
-                    android:id="@+id/sp_select"
-                    android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:layout_marginStart="16dp"
-                    android:background="@mipmap/spinner_bg"
-                    />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="6dp"
-                android:background="@color/gray" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:id="@+id/tv_water_pressure"
-                        android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    >
+
+                    <RelativeLayout
+                        android:id="@+id/ll0"
+                        android:layout_width="match_parent"
+                        android:layout_height="218dp"
+                        android:background="@drawable/banner"
+                        >
+
+
+
+                        <RelativeLayout
+                            android:layout_width="186dp"
+                            android:layout_height="186dp"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/round"
+                            >
+
+                            <TextView
+                                android:id="@+id/tv_device_status"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_above="@+id/tv_running_status"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginBottom="18dp"
+                                android:text="@string/app_name"
+                                android:textColor="@color/white"
+                                android:visibility="visible" />
+
+                            <TextView
+                                android:id="@+id/tv_running_status"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_centerVertical="true"
+                                android:text="运行状态"
+                                android:textColor="@color/white"
+                                android:visibility="visible"
+                                android:textSize="25dp"/>
+
+                            <Switch
+                                android:id="@+id/iv_switch"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/tv_running_status"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="24dp"
+                                android:text=" "
+                                android:thumb="@drawable/switch_custom_thumb_selector"
+                                android:track="@drawable/switch_custom_track_selector" />
+
+                            <View
+                                android:id="@+id/view"
+                                android:layout_width="wrap_content"
+                                android:layout_height="0.5dp"
+                                android:layout_centerInParent="true"
+                                />
+
+                            <!--<ImageView-->
+                            <!--android:id="@+id/iv_switch"-->
+                            <!--android:layout_width="113dp"-->
+                            <!--android:layout_height="36dp"-->
+                            <!--android:layout_centerHorizontal="true"-->
+                            <!--android:layout_centerVertical="true"-->
+                            <!--android:background="@drawable/switch_selector"-->
+                            <!--tools:ignore="contentDescription" />-->
+
+                        </RelativeLayout>
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_deviceId"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:drawableTop="@drawable/water_pressure_selector"
-                        android:textAlignment="center"
-                        android:drawablePadding="6dp"
-                        android:layout_marginTop="6dp"
-                        android:layout_marginBottom="6dp"
-                        android:text="@string/water_pressure_mode"
-                        />
+                        android:layout_marginTop="8dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="8dp"
+                        android:orientation="horizontal"
+                        android:visibility="visible"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/device_id"
+                            android:textSize="12sp" />
 
+                        <Spinner
+                            android:id="@+id/sp_select"
+                            android:layout_width="match_parent"
+                            android:layout_height="36dp"
+                            android:layout_marginStart="16dp"
+                            android:background="@mipmap/spinner_bg"
+                            />
+                    </LinearLayout>
                     <View
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:background="#ccc" />
+                        android:layout_width="match_parent"
+                        android:layout_height="6dp"
+                        android:background="@color/gray" />
 
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:background="#ccc" />
-
-                    <TextView
-                        android:id="@+id/tv_water_flow"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="6dp"
-                        android:layout_marginTop="6dp"
-                        android:layout_weight="1"
-                        android:drawablePadding="6dp"
-                        android:drawableTop="@drawable/water_flow_selector"
-                        android:text="@string/water_stream_mode"
-                        android:textAlignment="center" />
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_above="@+id/et_set_timer"
+                            android:layout_centerHorizontal="true">
+
+                            <TextView
+                                android:id="@+id/tv_water_pressure"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="6dp"
+                                android:layout_marginTop="6dp"
+                                android:layout_weight="1"
+                                android:drawablePadding="6dp"
+                                android:drawableTop="@drawable/water_pressure_selector"
+                                android:text="@string/water_pressure_mode"
+                                android:textAlignment="center" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="#ccc" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="#ccc" />
+
+                            <TextView
+                                android:id="@+id/tv_water_flow"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="6dp"
+                                android:layout_marginTop="6dp"
+                                android:layout_weight="1"
+                                android:drawablePadding="6dp"
+                                android:drawableTop="@drawable/water_flow_selector"
+                                android:text="@string/water_stream_mode"
+                                android:textAlignment="center" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="#ccc" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="#ccc" />
+
+                            <TextView
+                                android:id="@+id/tv_timer"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="6dp"
+                                android:layout_marginTop="6dp"
+                                android:layout_weight="1"
+                                android:drawablePadding="6dp"
+                                android:drawableTop="@drawable/timer_selector"
+                                android:text="定时"
+                                android:textAlignment="center" />
+
+                            <!--<TextView-->
+                            <!--android:id="@+id/tv_running_status"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_marginBottom="6dp"-->
+                            <!--android:layout_marginTop="6dp"-->
+                            <!--android:layout_weight="1"-->
+                            <!--android:drawablePadding="6dp"-->
+                            <!--android:drawableTop="@drawable/running_status_selctor"-->
+                            <!--android:text="电机"-->
+                            <!--android:textAlignment="center" />-->
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="#ccc" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="6dp"
+                            android:background="@color/gray" />
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="6dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:layout_marginTop="6dp"
+                            android:id="@+id/rl_set_time">
+
+
+                            <!--<TextView-->
+                            <!--android:id="@+id/tv_timer"-->
+                            <!--android:layout_width="30dp"-->
+                            <!--android:layout_height="30dp"-->
+                            <!--android:layout_alignParentBottom="true"-->
+                            <!--android:layout_alignParentStart="true"-->
+                            <!--android:layout_alignParentTop="true"-->
+                            <!--android:background="@drawable/timer_selector"-->
+                            <!--android:drawablePadding="6dp"-->
+                            <!--android:textAlignment="center" />-->
+
+                            <!--<TextView-->
+                            <!--android:id="@+id/tv_set_timer"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_alignBottom="@+id/tv_timer"-->
+                            <!--android:layout_centerHorizontal="true"-->
+                            <!--android:text="00"-->
+                            <!--android:textSize="20dp" />-->
+
+                            <EditText
+                                android:id="@+id/et_set_timer"
+                                android:layout_width="55dp"
+                                android:layout_height="40dp"
+                                android:layout_alignBottom="@+id/btn_timing_send"
+                                android:layout_centerHorizontal="true"
+                                android:ems="4"
+                                android:inputType="numberDecimal"
+                                android:maxLength="4"
+                                android:text="0"
+                                android:textAlignment="center"
+                                android:textColor="@color/colorAccent" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_toRightOf="@+id/iv_add_time"
+                                android:layout_toStartOf="@+id/iv_add_time"
+                                android:text="分" />
+
+                            <ImageView
+                                android:id="@+id/iv_add_time"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_alignParentTop="true"
+                                android:layout_marginEnd="50dp"
+                                android:layout_toStartOf="@+id/btn_timing_send"
+                                android:contentDescription="@string/app_name"
+                                android:focusable="true"
+                                android:src="@drawable/add_selector" />
+
+
+                            <TextView
+                                android:id="@+id/tv_time_control"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignBaseline="@+id/et_set_timer"
+                                android:layout_alignBottom="@+id/et_set_timer"
+                                android:layout_alignParentStart="true"
+                                android:text="时间"
+                                android:textSize="20dp" />
+                            <TextView
+                                android:id="@+id/tv_real_time_timing"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignBaseline="@+id/tv_time_control"
+                                android:layout_alignBottom="@+id/tv_time_control"
+                                android:layout_marginStart="5dp"
+                                android:layout_toEndOf="@+id/tv_time_control"
+                                android:text="1234"
+                                android:textSize="15dp" />
+
+                            <ImageView
+                                android:id="@+id/iv_reduce_time"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_alignParentTop="true"
+                                android:layout_marginStart="115dp"
+                                android:layout_alignLeft ="@+id/et_set_timer"
+                                android:contentDescription="@string/app_name"
+                                android:focusable="true"
+                                android:src="@drawable/reduce_selector" />
+
+                            <Button
+                                android:id="@+id/btn_timing_send"
+                                style="?android:attr/buttonBarButtonStyle"
+                                android:layout_width="50dp"
+                                android:layout_height="30dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:background="@drawable/btn_selctor_send_time"
+                                android:text="确定"
+                                android:textColor="@color/white"
+                                android:textSize="20dp" />
+
+
+
+
+
+                            <!--<Switch-->
+                            <!--android:id="@+id/switch_timing"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_alignParentEnd="true"-->
+                            <!--android:layout_alignTop="@+id/tv_set_timer"-->
+                            <!--android:text=" "-->
+                            <!--android:thumb="@drawable/switch_custom_thumb_selector"-->
+                            <!--android:track="@drawable/switch_custom_track_selector" />-->
+
+                        </RelativeLayout>
+                    </LinearLayout>
 
                     <View
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:background="#ccc" />
+                        android:layout_width="match_parent"
+                        android:layout_height="4dp"
+                        android:background="@color/gray" />
 
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:background="#ccc" />
-
-                    <TextView
-                        android:id="@+id/tv_running_status"
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="6dp"
-                        android:layout_marginTop="6dp"
-                        android:layout_weight="1"
-                        android:drawablePadding="6dp"
-                        android:drawableTop="@drawable/running_status_selctor"
-                        android:text="电机"
-                        android:textAlignment="center" />
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/tv_current_water_pressure"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="8dp"
+                            android:labelFor="@id/et_water_pressure_set"
+                            android:text="@string/set_water_pressure" />
+
+                        <TextView
+                            android:id="@+id/tv_target_pressure"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="8dp"
+                            android:labelFor="@id/et_water_pressure_set"
+                            android:text="@string/set_target_pressure" />
+                    </LinearLayout>
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="89dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginStart="16dp">
+
+                        <com.example.raindi.pumpercontrol.widget.DashboardView
+                            android:id="@+id/tv_water_pressure_set_dashboard"
+                            android:layout_width="100dp"
+                            android:layout_height="90dp"
+                            android:layout_marginTop="10dp"
+                            android:labelFor="@id/et_water_pressure_set" />
+
+                        <!-- android:id="@+id/dashboard_view" -->
+                        <!--
+                        <TextView
+                            android:id="@+id/tv_water_pressure_set"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="6dp"
+                            android:layout_marginTop="6dp"
+                            android:drawablePadding="3dp"
+                            android:drawableTop="@drawable/ic_water_pressure_selected"
+                            android:labelFor="@id/et_water_pressure_set"
+                            android:text="@string/pressure"
+                            android:textAlignment="center" />
+        -->
+                        <ImageView
+                            android:id="@+id/iv_reduce_water_pressure"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="2dp"
+                            android:layout_toEndOf="@id/tv_water_pressure_set_dashboard"
+                            android:clickable="true"
+                            android:contentDescription="@string/app_name"
+                            android:focusable="true"
+                            android:src="@drawable/reduce_selector" />
+
+                        <EditText
+                            android:id="@+id/et_water_pressure_set"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toEndOf="@id/iv_reduce_water_pressure"
+                            android:layout_toStartOf="@id/iv_add_water_pressure"
+                            android:inputType="numberDecimal"
+                            android:maxLength="5"
+                            android:ems="5"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorAccent"
+                            android:cursorVisible="true"
+                            android:textCursorDrawable="@null"/>
+
+                        <ImageView
+                            android:id="@+id/iv_add_water_pressure"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toStartOf="@+id/btn_send"
+                            android:clickable="true"
+                            android:contentDescription="@string/app_name"
+                            android:focusable="true"
+                            android:src="@drawable/add_selector" />
+
+                        <Button
+                            android:id="@+id/btn_send"
+                            style="?android:attr/buttonBarButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/btn_selector"
+                            android:text="@string/ok"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+
+
+                    </RelativeLayout>
 
                     <View
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:background="#ccc" />
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp"
+                        android:background="@color/gray" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        >
+
+                        <!--<Button-->
+                        <!--android:id="@+id/btn_water_less"-->
+                        <!--style="?android:attr/buttonBarButtonStyle"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginBottom="8dp"-->
+                        <!--android:layout_marginTop="8dp"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:background="@drawable/bg_error_selector"-->
+                        <!--android:text="@string/water_less"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="20sp" />-->
+
+                        <TextView
+                            android:id="@+id/tv_water_less"
+                            style="?android:attr/buttonBarButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_error_selector"
+                            android:text="@string/water_less"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:background="#ccc" />
+
+                        <Button
+                            android:id="@+id/btn_water_pressure_less"
+                            style="?android:attr/buttonBarButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:background="@drawable/bg_error_selector"
+                            android:text="@string/water_pressure_less"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:background="#ccc" />
+
+                        <Button
+                            android:id="@+id/btn_water_pressure_more"
+                            style="?android:attr/buttonBarButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_error_selector"
+                            android:text="@string/water_pressure_more"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/gray" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp">
+
+                        <Button
+                            android:id="@+id/btn_overload"
+                            style="?android:attr/buttonBarButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_error_selector"
+                            android:text="@string/overload"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:background="#ccc" />
+
+                        <Button
+                            android:id="@+id/btn_excessive_current"
+                            style="?android:attr/buttonBarButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:background="@drawable/bg_error_selector"
+                            android:text="@string/excessive_current"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:background="#ccc" />
+
+                        <Button
+                            android:id="@+id/btn_water_pressure_sensor_exception"
+                            style="?android:attr/buttonBarButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:background="@drawable/bg_error_selector"
+                            android:text="@string/water_pressure_sensor_exception"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="6dp"
-                    android:background="@color/gray" />
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginTop="6dp">
-
-                    <ImageView
-                        android:id="@+id/iv_reduce_time"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="80dp"
-                        android:layout_toEndOf="@+id/et_set_timer"
-                        android:contentDescription="@string/app_name"
-                        android:focusable="true"
-                        android:src="@drawable/reduce_selector" />
-
-                    <ImageView
-                        android:id="@+id/iv_add_time"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginEnd="70dp"
-                        android:layout_toStartOf="@+id/btn_timing_send"
-                        android:clickable="true"
-                        android:contentDescription="@string/app_name"
-                        android:focusable="true"
-                        android:src="@drawable/add_selector" />
-
-                    <TextView
-                        android:id="@+id/tv_timer"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:background="@drawable/timer_selector"
-                        android:drawablePadding="6dp"
-                        android:textAlignment="center" />
-
-                    <!--<TextView-->
-                    <!--android:id="@+id/tv_set_timer"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_alignBottom="@+id/tv_timer"-->
-                    <!--android:layout_centerHorizontal="true"-->
-                    <!--android:text="00"-->
-                    <!--android:textSize="20dp" />-->
-
-                    <EditText
-                        android:id="@+id/et_set_timer"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_alignBaseline="@+id/btn_timing_send"
-                        android:layout_alignBottom="@+id/btn_timing_send"
-                        android:layout_centerHorizontal="true"
-                        android:ems="3"
-                        android:inputType="numberDecimal"
-                        android:maxLength="3"
-                        android:text="0"
-                        android:textAlignment="center"
-                        android:textColor="@color/colorAccent" />
-
-                    <TextView
-                        android:id="@+id/tv_real_time_timing"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginStart="6dp"
-                        android:layout_toEndOf="@+id/tv_timer"
-                        android:text="  "
-                        android:textSize="13dp" />
-
-                    <!--<Switch-->
-                    <!--android:id="@+id/switch_timing"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_alignParentEnd="true"-->
-                    <!--android:layout_alignTop="@+id/tv_set_timer"-->
-                    <!--android:text=" "-->
-                    <!--android:thumb="@drawable/switch_custom_thumb_selector"-->
-                    <!--android:track="@drawable/switch_custom_track_selector" />-->
-
-                    <Button
-                        android:id="@+id/btn_timing_send"
-                        style="?android:attr/buttonBarButtonStyle"
-                        android:layout_width="50dp"
-                        android:layout_height="30dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/btn_selctor_send_time"
-                        android:text="确定"
-                        android:textColor="@color/white"
-                        android:textSize="20dp" />
-
-                </RelativeLayout>
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="4dp"
-                android:background="@color/gray" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/tv_current_water_pressure"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:labelFor="@id/et_water_pressure_set"
-                    android:text="@string/set_water_pressure" />
-
-                <TextView
-                    android:id="@+id/tv_target_pressure"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:labelFor="@id/et_water_pressure_set"
-                    android:text="@string/set_target_pressure" />
-            </LinearLayout>
-
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="89dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp">
-
-                <com.example.raindi.pumpercontrol.widget.DashboardView
-                    android:id="@+id/tv_water_pressure_set_dashboard"
-                    android:layout_width="100dp"
-                    android:layout_height="90dp"
-                    android:layout_marginTop="10dp"
-                    android:labelFor="@id/et_water_pressure_set" />
-
-                <!-- android:id="@+id/dashboard_view" -->
-                <!--
-                <TextView
-                    android:id="@+id/tv_water_pressure_set"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
-                    android:layout_marginTop="6dp"
-                    android:drawablePadding="3dp"
-                    android:drawableTop="@drawable/ic_water_pressure_selected"
-                    android:labelFor="@id/et_water_pressure_set"
-                    android:text="@string/pressure"
-                    android:textAlignment="center" />
--->
-                <ImageView
-                    android:id="@+id/iv_reduce_water_pressure"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="2dp"
-                    android:layout_toEndOf="@id/tv_water_pressure_set_dashboard"
-                    android:clickable="true"
-                    android:contentDescription="@string/app_name"
-                    android:focusable="true"
-                    android:src="@drawable/reduce_selector" />
-
-                <EditText
-                    android:id="@+id/et_water_pressure_set"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@id/iv_reduce_water_pressure"
-                    android:layout_toStartOf="@id/iv_add_water_pressure"
-                    android:inputType="numberDecimal"
-                    android:maxLength="5"
-                    android:ems="5"
-                    android:textAlignment="center"
-                    android:textColor="@color/colorAccent" />
-
-                <ImageView
-                    android:id="@+id/iv_add_water_pressure"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toStartOf="@+id/btn_send"
-                    android:clickable="true"
-                    android:contentDescription="@string/app_name"
-                    android:focusable="true"
-                    android:src="@drawable/add_selector" />
-
-                <Button
-                    android:id="@+id/btn_send"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/btn_selector"
-                    android:text="@string/ok"
-                    android:textColor="@color/white"
-                    android:textSize="20sp" />
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="8dp"
-                android:background="@color/gray" />
-
-            <LinearLayout
+            </ScrollView>
+            <ImageView
+                android:id="@+id/logo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                >
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/logo"
+                tools:ignore="contentDescription" />
 
-                <Button
-                    android:id="@+id/btn_water_less"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_error_selector"
-                    android:text="@string/water_less"
-                    android:textColor="@color/white"
-                    android:textSize="20sp" />
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="#ccc" />
-
-                <Button
-                    android:id="@+id/btn_water_pressure_less"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="@drawable/bg_error_selector"
-                    android:text="@string/water_pressure_less"
-                    android:textColor="@color/white"
-                    android:textSize="20sp" />
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="#ccc" />
-
-                <Button
-                    android:id="@+id/btn_water_pressure_more"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_error_selector"
-                    android:text="@string/water_pressure_more"
-                    android:textColor="@color/white"
-                    android:textSize="20sp" />
-
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gray" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp">
-
-                <Button
-                    android:id="@+id/btn_overload"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_error_selector"
-                    android:text="@string/overload"
-                    android:textColor="@color/white"
-                    android:textSize="20sp" />
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="#ccc" />
-
-                <Button
-                    android:id="@+id/btn_excessive_current"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="@drawable/bg_error_selector"
-                    android:text="@string/excessive_current"
-                    android:textColor="@color/white"
-                    android:textSize="20sp" />
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="#ccc" />
-
-                <Button
-                    android:id="@+id/btn_water_pressure_sensor_exception"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="@drawable/bg_error_selector"
-                    android:text="@string/water_pressure_sensor_exception"
-                    android:textColor="@color/white"
-                    android:textSize="20sp" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </ScrollView>
-
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:src="@drawable/logo"
-        tools:ignore="contentDescription" />
+        </RelativeLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

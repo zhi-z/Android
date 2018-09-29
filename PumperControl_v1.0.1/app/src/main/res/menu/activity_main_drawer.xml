@@ -9,10 +9,10 @@
             android:icon="@drawable/ic_menu_network_settings"
             android:title="网络设置" />
 
-        <item
-            android:id="@+id/nav_unit_switch"
-            android:icon="@drawable/ic_menu_unit_switch"
-            android:title="模式切换" />
+        <!--<item-->
+            <!--android:id="@+id/nav_unit_switch"-->
+            <!--android:icon="@drawable/ic_menu_unit_switch"-->
+            <!--android:title="模式切换" />-->
         <item
             android:id="@+id/nav_question"
             android:icon="@drawable/ic_menu_question"

@@ -41,4 +41,5 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.2'
     compile project(path: ':shapeloading')
     implementation project(':library')
+    implementation project(':pullToRefresh')
 }
